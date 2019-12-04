@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import "./header.styles.scss";
 import { auth } from "../../firebase/firebase.utils";
+import CartIcon from "../cart-icon/cart-icon.component";
 
 import { Link } from "react-router-dom";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 const Header = ({ currentUser }) => {
-  
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -19,7 +20,7 @@ const Header = ({ currentUser }) => {
         <Link to="/contact" className="option">
           CONTACT
         </Link>
-        {currentUser!==null && currentUser.authUser!==null  ? (
+        {currentUser !== null && currentUser.authUser !== null ? (
           <div
             className="option"
             onClick={() => {
@@ -33,7 +34,9 @@ const Header = ({ currentUser }) => {
             SIGN IN
           </Link>
         )}
+        <CartIcon />
       </div>
+      <CartDropdown />
     </div>
   );
 };
