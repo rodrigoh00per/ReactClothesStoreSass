@@ -7,7 +7,8 @@ import CartIcon from "../cart-icon/cart-icon.component";
 
 import { Link } from "react-router-dom";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hidden }) => {
+
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -36,12 +37,11 @@ const Header = ({ currentUser }) => {
         )}
         <CartIcon />
       </div>
-      <CartDropdown />
+      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
-const mapStateToProps = state => {
-  console.log(state);
-  return { currentUser: state.user.currentUser };
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => {
+  return { currentUser, hidden };
 };
 export default connect(mapStateToProps)(Header);
