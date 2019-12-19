@@ -8,7 +8,6 @@ import CartIcon from "../cart-icon/cart-icon.component";
 import { Link } from "react-router-dom";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 const Header = ({ currentUser, hidden }) => {
-
   return (
     <div className="header">
       <Link className="logo-container" to="/">

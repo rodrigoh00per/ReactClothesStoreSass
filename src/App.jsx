@@ -36,6 +36,7 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
   render() {
+    console.log(this.props.currentUser);
     return (
       <div>
         <Header />
@@ -45,13 +46,18 @@ class App extends React.Component {
           <Route
             exact
             path="/signin"
-            render={() =>
-              this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
+            render={() => {
+              if (this.props.currentUser) {
+                if (typeof this.props.currentUser.authUser === "undefined")
+                  return <SignInAndSignUpPage />;
+                else if (
+                  this.props.currentUser.authUser !== undefined &&
+                  this.props.currentUser.authUser !== null
+                ) {
+                  return <Redirect to="/" />;
+                } else return <SignInAndSignUpPage />;
+              }
+            }}
           />
         </Switch>
       </div>
@@ -59,6 +65,7 @@ class App extends React.Component {
   }
 }
 const mapStateToProps = ({ user }) => {
+  console.log(user.currentUser);
   return { currentUser: user.currentUser };
 };
 const mapDispatchToProps = dispatch => ({
