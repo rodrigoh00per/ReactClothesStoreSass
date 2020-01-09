@@ -10,16 +10,23 @@ import CollectionOverview from "../../components/collection-overview/collection-
 import { Route } from "react-router-dom";
 import CollectionPage from "../collection/collection.component";
 
+import WithSpinner from "../../components/with-spinner/with-spinner.component";
+
+const CollectionOverviewWithSpinner = WithSpinner(CollectionOverview);
+const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+
 class ShopPage extends Component {
+  state = { isLoading: true };
   componentDidMount() {
     const { updateCollections } = this.props;
-     //Se comenta para que no este consumiendo servicios de firebase
-    /*  const collectionRef = firestore.collection("collections");
+    //Se comenta para que no este consumiendo servicios de firebase
+    const collectionRef = firestore.collection("collections");
 
     collectionRef.get().then(async snapshot => {
       const collectionsMap = convertCollectionSnapshotToMap(snapshot);
       updateCollections(collectionsMap);
-    }); */
+      this.setState({ isLoading: false });
+    });
   }
   render() {
     return (
@@ -27,11 +34,21 @@ class ShopPage extends Component {
         <Route
           exact
           path={`${this.props.match.path}`}
-          component={CollectionOverview}
+          render={props => (
+            <CollectionOverviewWithSpinner
+              isLoading={this.state.isLoading}
+              {...props}
+            />
+          )}
         ></Route>
         <Route
           path={`${this.props.match.path}/:collectionId`}
-          component={CollectionPage}
+          render={props => (
+            <CollectionPageWithSpinner
+              isLoading={this.state.isLoading}
+              {...props}
+            />
+          )}
         />
       </div>
     );

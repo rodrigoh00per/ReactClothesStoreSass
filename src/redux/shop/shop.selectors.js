@@ -9,14 +9,14 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  collections => Object.keys(collections).map(key => collections[key])
+  collections =>
+    collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 // the method that i used "hashtable" because you specific the key of the value that
 // you need to retrieve
 
 export const selectCollection = collectionUrlParam =>
-  createSelector(
-    [selectCollections],
-    collections => collections[collectionUrlParam]
+  createSelector([selectCollections], collections =>
+    collections ? collections[collectionUrlParam] : null
   );
