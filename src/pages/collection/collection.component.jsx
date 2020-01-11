@@ -5,17 +5,22 @@ import CollectionItem from "../../components/collection-item/collection-item.com
 import "../collection/collection.styles.scss";
 
 const CollectionPage = ({ collection }) => {
-  const { title, items } = collection;
-  return (
-    <div className="collection-page">
-      <h2 className="title">{title}</h2>
-      <div className="items">
-        {items.map(item => (
-          <CollectionItem item={item} key={item.id} />
-        ))}
+  const renderCollectionContent = () =>
+    collection !== null ? renderContent() : <div>Espere...</div>;
+  const renderContent = () => {
+    const { title, items } = collection;
+    return (
+      <div className="collection-page">
+        <h2 className="title">{title}</h2>
+        <div className="items">
+          {items.map(item => (
+            <CollectionItem item={item} key={item.id} />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+  return renderCollectionContent();
 };
 
 const mapStateToProps = (state, ownProps) => ({
