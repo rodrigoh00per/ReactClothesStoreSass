@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 import CollectionOverviewContainer from "../../components/collection-overview/collection-overview.container";
 import { Route } from "react-router-dom";
 import CollectionPageContainer from "../collection/collection.container";
 
 class ShopPage extends Component {
   componentDidMount() {
+    this.props.fetchCollectionsStart();
     //Se comenta para que no este consumiendo servicios de firebase
-    this.props.fetchCollectionsStartAsync();
+    /* this.props.fetchCollectionsStartAsync(); */
   }
   render() {
     const { match } = this.props;
@@ -29,7 +30,7 @@ class ShopPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
 });
 
 export default connect(null, mapDispatchToProps)(ShopPage);
