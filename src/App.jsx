@@ -1,15 +1,11 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-
 import Header from "./components/header/header.component";
 import HomePage from "./pages/homepage/HomePage.component";
 import ShopPage from "./pages/shop/shop.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import SignInAndSignUpPage from "./pages/sign-in-sign-up/sign-in-sign-up.component";
-
-import { setCurrentUser } from "./redux/user/user.actions";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 
@@ -22,9 +18,9 @@ class App extends React.Component {
   }
   unsubscribeFromAuth = null;
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    /*  const { setCurrentUser } = this.props; */
     //this is a socket that listen the auth of user.
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
+    /*   this.unsubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
       if (authUser) {
         const userRef = await createUserProfileDocument(authUser);
 
@@ -36,7 +32,7 @@ class App extends React.Component {
         });
       }
       setCurrentUser({ authUser });
-    });
+    }); */
   }
   componentWillUnmount() {
     this.unsubscribeFromAuth();
@@ -53,16 +49,13 @@ class App extends React.Component {
             exact
             path="/signin"
             render={() => {
-              if (this.props.currentUser) {
-                if (typeof this.props.currentUser.authUser === "undefined")
-                  return <SignInAndSignUpPage />;
-                else if (
-                  this.props.currentUser.authUser !== undefined &&
-                  this.props.currentUser.authUser !== null
-                ) {
-                  return <Redirect to="/" />;
-                } else return <SignInAndSignUpPage />;
-              }
+              if (this.props.currentUser === null)
+                return <SignInAndSignUpPage />;
+              else if (
+                this.props.currentUser.authUser !== null
+              ) {
+                return <Redirect to="/" />;
+              } else return <SignInAndSignUpPage />;
             }}
           />
         </Switch>
@@ -74,7 +67,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-});
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
