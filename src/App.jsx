@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { checkUserSession } from "./redux/user/user.actions";
 import Header from "./components/header/header.component";
 import HomePage from "./pages/homepage/HomePage.component";
 import ShopPage from "./pages/shop/shop.component";
@@ -18,21 +19,7 @@ class App extends React.Component {
   }
   unsubscribeFromAuth = null;
   componentDidMount() {
-    /*  const { setCurrentUser } = this.props; */
-    //this is a socket that listen the auth of user.
-    /*   this.unsubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
-      if (authUser) {
-        const userRef = await createUserProfileDocument(authUser);
-
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      }
-      setCurrentUser({ authUser });
-    }); */
+    this.props.checkUserSession();
   }
   componentWillUnmount() {
     this.unsubscribeFromAuth();
@@ -64,5 +51,7 @@ class App extends React.Component {
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
-
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  checkUserSession: () => dispatch(checkUserSession())
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);
