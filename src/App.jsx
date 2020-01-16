@@ -51,9 +51,7 @@ class App extends React.Component {
             render={() => {
               if (this.props.currentUser === null)
                 return <SignInAndSignUpPage />;
-              else if (
-                this.props.currentUser.authUser !== null
-              ) {
+              else if (this.props.currentUser.authUser !== null) {
                 return <Redirect to="/" />;
               } else return <SignInAndSignUpPage />;
             }}
