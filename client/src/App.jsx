@@ -9,17 +9,16 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import SignInAndSignUpPage from "./pages/sign-in-sign-up/sign-in-sign-up.component";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selectors";
-
-import "./App.scss";
+import { GlobalStyle } from "./global.styles";
 
 const App = ({ checkUserSession, currentUser }) => {
-
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);
-  
+
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
